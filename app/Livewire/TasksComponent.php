@@ -190,7 +190,11 @@ class TasksComponent extends Component
         $tasks_collection = $tasks->get();
 
         $filtered = $tasks_collection->filter(function ($value, int $key) {
-            return in_array($value->status->status->value, $this->statusFilter);
+            if(empty($value->status->status->value)){
+                return false;
+            }else{
+                return in_array($value->status->status->value, $this->statusFilter);
+            }            
         });
 
         
