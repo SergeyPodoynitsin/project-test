@@ -1,0 +1,27 @@
+version: '20.0.3'
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx.dockerfile
+    ports:
+      - 8080:80
+    volumes:
+      - ./:/var/www/project-test
+
+  fpm:
+    build:
+      context: .
+      dockerfile: docker/fpm.dockerfile
+    volumes:
+      - ./:/var/www/project-test
+    links:
+      - mysql
+  mysql:
+    image: mysql:8.3
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=laravel
